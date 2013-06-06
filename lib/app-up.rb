@@ -66,17 +66,14 @@ class AppUp
     s3_connect
     instance.urls = {
       regular: CGI.escapeHTML(instance.bucket.files.new(
-           key: path_with_name(instance.settings[:icon][:regular]))
-                .url(Time.new.to_i + 60*60*24)),
+           key: path_with_name(instance.settings[:icon][:regular])
+      ).url(Time.new.to_i + 60*60*24)),
       retina: CGI.escapeHTML(instance.bucket.files.new(
            key: path_with_name(instance.settings[:icon][:retina])
-           )
-                .url(Time.new.to_i + 60*60*24)),
+      ).url(Time.new.to_i + 60*60*24)),
       app: CGI.escapeHTML(instance.bucket.files.new(
-           key: path_with_name(
-                  filepath_with_version(instance.settings[:version])
-                ).url(Time.new.to_i + 60*60*24)
-           ),
+         key: path_with_name(filepath_with_version(instance.settings[:version])
+       ).url(Time.new.to_i + 60*60*24))
     }
 
     template = File.read(File.dirname(__FILE__) + "/manifest.plist.erb")

@@ -53,7 +53,7 @@ class AppUp
 
   def self.apk_link
     s3_connect
-    path = filepath_with_version(instance.settings[:version], nil, '.apk')
+    path = filepath_with_version(instance.settings[:version], nil, 'apk')
     instance.bucket.files.new(key: path).url(Time.new.to_i + 60*60*24)
   end
 

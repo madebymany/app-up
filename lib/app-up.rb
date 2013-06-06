@@ -102,7 +102,7 @@ class AppUp
     if path
       extention = Pathname.new(path).basename.to_s.split('.').last 
     else
-      extention = '.ipa'
+      extention = 'ipa'
     end
     "#{instance.settings[:app_name].parameterize}-#{version}.#{extention}"
   end

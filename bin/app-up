@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require 
+require 'thor'
+
+require "app-up"
+
+class AppUpCmd < Thor
+  
+  desc "init", "Initialize AppUp (creates a yaml file, etc)"
+  def init
+    AppUp.exit_with_error("Directory is not empty") unless Dir.glob('*').empty?
+
+    puts "Writing out files.."
+
+    default_yaml = AppUp::DEFAULT_YAML_SETTINGS.to_yaml
+    File.open("app-up.yaml", 'w') {|f| f.write(default_yaml) }
+
+    FileUtils.cp(
+      File.dirname(__FILE__).gsub('/bin', '/lib') + '/image_57x57.png',
+      ENV['PWD'] + '/image_57x57.png')
+
+    FileUtils.cp(
+      File.dirname(__FILE__).gsub('/bin', '/lib') + '/image_512x512.png',
+      ENV['PWD'] + '/image_512x512.png')
+
+    puts "Finished: you should now edit the YAML file.."
+  end
+
+  desc "upload /file/path 0.0.1", "Upload an app to s3 and update the YAML"
+  def upload(app_path, version = '0.0.1')
+    puts "Uploading icons"
+    AppUp.upload_icons
+
+    puts "\nUploading new app version"
+    AppUp.upload_app(app_path, version)
+  end
+
+end
+
+AppUpCmd.start

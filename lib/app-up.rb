@@ -51,7 +51,13 @@ class AppUp
     end
   end
 
+  def self.apk_link
+    path = filepath_with_version(nil, instance.settings[:version], '.apk')
+    instance.bucket.files.new(key: path).url(Time.new.to_i + 60*60*24))
+  end
+
   def self.upload_app(app_path, version)
+    s3_connect
     new_path = path_with_name filepath_with_version(app_path, version)
     upload_file app_path, new_path
   end
@@ -99,12 +105,11 @@ class AppUp
     )
   end
 
-  def self.filepath_with_version(path = nil, version)
+  def self.filepath_with_version(path = nil, version, extention = 'ipa')
     if path
       extention = Pathname.new(path).basename.to_s.split('.').last 
-    else
-      extention = 'ipa'
     end
+
     "#{instance.settings[:app_name].parameterize}-#{version}.#{extention}"
   end
 

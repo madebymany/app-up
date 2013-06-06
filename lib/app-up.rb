@@ -53,7 +53,7 @@ class AppUp
 
   def self.apk_link
     path = filepath_with_version(nil, instance.settings[:version], '.apk')
-    instance.bucket.files.new(key: path).url(Time.new.to_i + 60*60*24))
+    instance.bucket.files.new(key: path).url(Time.new.to_i + 60*60*24)
   end
 
   def self.upload_app(app_path, version)

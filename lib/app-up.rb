@@ -38,7 +38,7 @@ class AppUp
   end
 
   def self.load_settings(path = 'app-up.yaml')
-    AppUp.instance.settings = 
+    AppUp.instance.settings ||= 
         File.open(path) { |yf| YAML::load( yf ) }
   end
 

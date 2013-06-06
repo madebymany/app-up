@@ -37,9 +37,9 @@ class AppUp
     binding
   end
 
-  def self.load_settings
+  def self.load_settings(path = 'app-up.yaml')
     AppUp.instance.settings = 
-        File.open( 'app-up.yaml' ) { |yf| YAML::load( yf ) }
+        File.open(path) { |yf| YAML::load( yf ) }
   end
 
   def self.upload_icons
